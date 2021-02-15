@@ -26,7 +26,7 @@ func ParseInput() model.Input {
 	flag.BoolVar(&fofa, "fofa", false, "Use Fofa.")
 	flag.BoolVar(&quake, "quake", false, "Use Quake.")
 	flag.Parse()
-	if key == "" || help == true {
+	if help == true {
 		flag.PrintDefaults()
 		return result
 	}
