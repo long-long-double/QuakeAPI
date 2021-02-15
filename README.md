@@ -5,6 +5,7 @@
 - 直接生成可执行文件，无需安装各种复杂的环境（Python，JDK等等）
 - 使用高并发技术，获取大量数据时的效率提升
 - 代码相对完善，考虑到后续拓展性
+- 即将兼容Fofa搜索引擎，实现完善的功能
 
 ## 参数说明
 
@@ -24,6 +25,7 @@
 - Generate executable file directly, no need to install a variety of complex environment (Python, JDK, etc.)
 - Use high concurrency technology to improve the efficiency of obtaining large amounts of data
 - The code is relatively perfect, considering the subsequent expansibility
+- It will be compatible with fofa search engine to realize perfect functions
 
 ## Parameter Description
 
