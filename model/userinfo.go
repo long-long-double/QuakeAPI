@@ -1,6 +1,6 @@
 package model
 
-type UserInfo struct {
+type QuakeUserInfo struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Data    struct {
@@ -37,4 +37,17 @@ type UserInfo struct {
 	} `json:"data"`
 	Meta struct {
 	} `json:"meta"`
+}
+
+type FofaUserInfo struct {
+	Email      string `json:"email"`
+	Username   string `json:"username"`
+	Fcoin      int    `json:"fcoin"`
+	IsVip      bool   `json:"isvip"`
+	VipLevel   int    `json:"vip_level"`
+	IsVerified bool   `json:"is_verified"`
+	Avatar     string `json:"avatar"`
+	Message    int    `json:"message"`
+	FofaCliVer string `json:"fofacli_ver"`
+	FofaServer bool   `json:"fofa_server"`
 }

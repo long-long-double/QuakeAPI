@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type ServiceInfo struct {
+type QuakeServiceInfo struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Data    []struct {
@@ -69,4 +69,13 @@ type ServiceInfo struct {
 		Total        int    `json:"total"`
 		PaginationID string `json:"pagination_id"`
 	} `json:"meta"`
+}
+
+type FofaServiceInfo struct {
+	Mode    string     `json:"mode"`
+	Error   bool       `json:"error"`
+	Query   string     `json:"query"`
+	Page    int        `json:"page"`
+	Size    int        `json:"size"`
+	Results [][]string `json:"results"`
 }

@@ -3,7 +3,6 @@ package core
 import (
 	"QuakeAPI/log"
 	"QuakeAPI/model"
-	"QuakeAPI/utils"
 	"bytes"
 	"encoding/json"
 	"strconv"
@@ -14,23 +13,17 @@ type QuakeInterface interface {
 	GetServiceInfo(key string, query string, total int, pid string) (string, string)
 }
 
-type Core struct {
+type QuakeCore struct {
 }
 
-var httpClient utils.HttpClient
-
-func init() {
-	httpClient = utils.HttpClient{}
-}
-
-func (c Core) GetUserInfo(key string) {
+func (c QuakeCore) GetUserInfo(key string) {
 	url := "https://quake.360.cn/api/v3/user/info"
 	data := make(map[string]string)
 	headers := make(map[string]string)
 	headers["X-QuakeToken"] = key
 	headers["Content-Type"] = "application/json"
 	res := httpClient.DoGet(url, data, headers)
-	var userInfo model.UserInfo
+	var userInfo model.QuakeUserInfo
 	err := json.Unmarshal(res, &userInfo)
 	if err != nil {
 		log.Log("unmarshal error:"+err.Error(), log.ERROR)
@@ -51,7 +44,7 @@ func (c Core) GetUserInfo(key string) {
 	log.Log("Your Role Is "+roles.String(), log.INFO)
 }
 
-func (c Core) GetServiceInfo(key string, query string, total int, pid string) (string, string) {
+func (c QuakeCore) GetServiceInfo(key string, query string, total int, pid string) (string, string) {
 	url := "https://quake.360.cn/api/v3/scroll/quake_service"
 	data := make(map[string]string)
 	data["query"] = query
@@ -67,7 +60,7 @@ func (c Core) GetServiceInfo(key string, query string, total int, pid string) (s
 	headers["Content-Type"] = "application/json"
 	log.Log("Please Wait......", log.INFO)
 	res := httpClient.DoPost(url, data, headers)
-	var serviceInfo model.ServiceInfo
+	var serviceInfo model.QuakeServiceInfo
 	err := json.Unmarshal(res, &serviceInfo)
 	if err != nil {
 		log.Log("unmarshal error:"+err.Error(), log.ERROR)

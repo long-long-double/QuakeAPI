@@ -30,8 +30,14 @@ func doRequest(
 	data map[string]string,
 	headers map[string]string) []byte {
 	client := http.Client{}
-	bytesData, _ := json.Marshal(data)
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(bytesData))
+	var req *http.Request
+	var err error
+	if data != nil {
+		bytesData, _ := json.Marshal(data)
+		req, err = http.NewRequest(method, url, bytes.NewBuffer(bytesData))
+	} else {
+		req, err = http.NewRequest(method, url, nil)
+	}
 	if err != nil {
 		log.Log("http error:"+err.Error(), log.ERROR)
 		return nil
