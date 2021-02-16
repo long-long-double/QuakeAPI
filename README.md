@@ -1,5 +1,5 @@
 # 360 Quake API / Fofa API
-
+![](https://img.shields.io/badge/Release-Version0.1-blue.svg)
 ## 项目介绍
 
 对于渗透测试工程师来说，一定熟悉Fofa，但大部分人应该不了解Quake
@@ -27,26 +27,15 @@
 
 - Windows
 
-**QuakeAPI.exe <font color=green>--fofa</font> --key <font color=red>[your_key]</font> --email <font color=red>[your_email]</font> <font color=orange>--search "mysql"</font> --total 1000 --output result.txt**
+**QuakeAPI.exe --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt**
 
-**QuakeAPI.exe <font color=green>--quake</font> --key <font color=red>[your_key]</font> <font color=orange>--search service:mysql</font> --total 1000 --output result.txt**
+**QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --output result.txt**
 
 - Linux / MacOS
 
-**./QuakeAPI <font color=green>--fofa</font> --key <font color=red>[your_key]</font> --email <font color=red>[your_email]</font> <font color=orange>--search "mysql"</font> --total 1000 --output result.txt**
+**./QuakeAPI --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt**
 
-**./QuakeAPI <font color=green>--quake</font> --key <font color=red>[your_key]</font> <font color=orange>--search service:mysql</font> --total 1000 --output result.txt**
-
-## 参数说明：
-- --email：当使用fofa时需要提供email
-- --fofa：使用fofa引擎
-- --quake：使用quake引擎
-- --help：查看帮助
-- --key：输入你的API Key
-- --search：输入你的查询字符串
-- --output：设置输出文件（默认是result.txt）
-- --total：查询总条数（默认是100条，如果数量较多，自动使用协程）
-- --userinfo：是否查询用户相关的信息（用户名邮箱等信息）
+**./QuakeAPI --quake</font> --key [your_key] --search service:mysql --total 1000 --output result.txt**
 
 ## 截图
 
@@ -61,3 +50,14 @@
 
 ### 结果
 ![](https://xuyiqing-1257927651.cos.ap-beijing.myqcloud.com/quake/result.png)
+
+## 参数说明：
+- --email：当使用fofa时需要提供email
+- --fofa：使用fofa引擎
+- --quake：使用quake引擎
+- --help：查看帮助
+- --key：输入你的API Key
+- --search：输入你的查询字符串
+- --output：设置输出文件（默认是result.txt）
+- --total：查询总条数（默认是100条，如果数量较多，自动使用协程）
+- --userinfo：是否查询用户相关的信息（用户名邮箱等信息）
