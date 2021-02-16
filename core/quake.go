@@ -4,7 +4,6 @@ import (
 	"QuakeAPI/log"
 	"QuakeAPI/model"
 	"bytes"
-	"encoding/json"
 	"strconv"
 )
 

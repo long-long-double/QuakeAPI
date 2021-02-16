@@ -1,8 +1,11 @@
 package utils
 
 import (
+	"QuakeAPI/log"
 	"QuakeAPI/model"
 	"flag"
+	"os"
+	"strings"
 )
 
 func ParseInput() model.Input {
@@ -28,7 +31,19 @@ func ParseInput() model.Input {
 	flag.Parse()
 	if help == true {
 		flag.PrintDefaults()
-		return result
+		os.Exit(0)
+	}
+	if strings.TrimSpace(key) == "" {
+		log.Log("Need Key", log.ERROR)
+		os.Exit(0)
+	}
+	if strings.TrimSpace(search) == "" && userInfo == false {
+		log.Log("Need Search String", log.ERROR)
+		os.Exit(0)
+	}
+	if strings.TrimSpace(email) == "" && fofa == true {
+		log.Log("Fofa Need Email", log.ERROR)
+		os.Exit(0)
 	}
 	result.UserInfo = userInfo
 	result.Key = key

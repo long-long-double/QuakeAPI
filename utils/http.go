@@ -3,12 +3,13 @@ package utils
 import (
 	"QuakeAPI/log"
 	"bytes"
-	"encoding/json"
+	"fmt"
+	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
 	"net/http"
 )
 
-type Http interface {
+type HttpInterface interface {
 	DoGet(url string, data map[string]string, headers map[string]string) []byte
 	DoPost(url string, data map[string]string, headers map[string]string) []byte
 }
@@ -32,6 +33,8 @@ func doRequest(
 	client := http.Client{}
 	var req *http.Request
 	var err error
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+	fmt.Println(url)
 	if data != nil {
 		bytesData, _ := json.Marshal(data)
 		req, err = http.NewRequest(method, url, bytes.NewBuffer(bytesData))

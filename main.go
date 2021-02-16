@@ -7,7 +7,13 @@ import (
 	"QuakeAPI/utils"
 	"bytes"
 	"strings"
+	"sync"
 )
+
+type Lock struct {
+	Lock   sync.Mutex
+	buffer bytes.Buffer
+}
 
 func main() {
 	input := utils.ParseInput()
@@ -47,22 +53,40 @@ func doFofa(input model.Input) {
 
 func doGetFofaInfo(input model.Input, fofaCore core.FofaCore) {
 	var results string
-	buffer := bytes.Buffer{}
+	var lock = Lock{sync.Mutex{}, bytes.Buffer{}}
 	log.Log("Search : "+input.Search, log.INFO)
 	if input.Total > 100 {
-		var currentPage int
-		var size int
-		results, currentPage, size = fofaCore.GetSearchInfo(input.Search, input.Total, 1)
-		buffer.WriteString(results)
-		for i := 0; i < size/input.Total+1; i++ {
-			results, currentPage, size = fofaCore.GetSearchInfo(input.Search, input.Total, currentPage+1)
-			buffer.WriteString(results)
+		pageNum := input.Total/100 + 1
+		dataChan := make(chan string)
+		quitChan := make(chan bool, pageNum)
+		lock.buffer.WriteString(results)
+		for i := 1; i <= pageNum; i++ {
+			currentPage := i
+			go func() {
+				results, _, _ = fofaCore.GetSearchInfo(input.Search, currentPage)
+				dataChan <- results
+				quitChan <- true
+			}()
 		}
+		flag := 0
+		for {
+			select {
+			case data := <-dataChan:
+				lock.Lock.Lock()
+				lock.buffer.WriteString(data)
+				lock.Lock.Unlock()
+			case <-quitChan:
+				flag += 1
+				if flag == pageNum {
+					goto finish
+				}
+			}
+		}
+	finish:
+		results = lock.buffer.String()
 	} else {
-		results, _, _ = fofaCore.GetSearchInfo(input.Search, input.Total, 1)
-		buffer.WriteString(results)
+		results, _, _ = fofaCore.GetSearchInfo(input.Search, 1)
 	}
-	results = buffer.String()
 	utils.WriteOutput(results, input.Output)
 }
 

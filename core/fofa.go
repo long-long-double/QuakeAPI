@@ -5,13 +5,12 @@ import (
 	"QuakeAPI/model"
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"strconv"
 )
 
 type FofaInterface interface {
 	GetUserInfo(email string, key string)
-	GetSearchInfo(query string) (string, int, int)
+	GetSearchInfo(query string, page int) (string, int, int)
 }
 
 type FofaCore struct {
@@ -40,17 +39,16 @@ func (c FofaCore) GetUserInfo(email string, key string) {
 	log.Log("Your Email Is "+userInfo.Email, log.INFO)
 }
 
-func (c FofaCore) GetSearchInfo(query string, total int, page int) (string, int, int) {
+func (c FofaCore) GetSearchInfo(query string, page int) (string, int, int) {
 	result := bytes.Buffer{}
 	encodeString := base64.StdEncoding.EncodeToString([]byte(query))
 	url := "https://fofa.so/api/v1/search/all?email=" +
 		globalEmail + "&key=" + globalKey + "&qbase64=" + encodeString +
-		"&page=" + strconv.Itoa(page) + "&size=" + strconv.Itoa(total)
+		"&page=" + strconv.Itoa(page) + "&size=100"
 	res := httpClient.DoGet(url, nil, nil)
 	var searchInfo model.FofaServiceInfo
 	err := json.Unmarshal(res, &searchInfo)
 	if err != nil {
-		log.Log("unmarshal error:"+err.Error(), log.ERROR)
 		return "", 0, 0
 	}
 	if searchInfo.Error == true {
