@@ -15,6 +15,9 @@ type Lock struct {
 	buffer bytes.Buffer
 }
 
+var QuitLock sync.Mutex
+var lock = Lock{sync.Mutex{}, bytes.Buffer{}}
+
 func main() {
 	input := utils.ParseInput()
 	if input.Quake == true {
@@ -53,7 +56,6 @@ func doFofa(input model.Input) {
 
 func doGetFofaInfo(input model.Input, fofaCore core.FofaCore) {
 	var results string
-	var lock = Lock{sync.Mutex{}, bytes.Buffer{}}
 	log.Log("Search : "+input.Search, log.INFO)
 	if input.Total > 100 {
 		pageNum := input.Total/100 + 1
@@ -76,7 +78,9 @@ func doGetFofaInfo(input model.Input, fofaCore core.FofaCore) {
 				lock.buffer.WriteString(data)
 				lock.Lock.Unlock()
 			case <-quitChan:
+				QuitLock.Lock()
 				flag += 1
+				QuitLock.Unlock()
 				if flag == pageNum {
 					goto finish
 				}
@@ -92,11 +96,10 @@ func doGetFofaInfo(input model.Input, fofaCore core.FofaCore) {
 
 func doGetQuakeInfo(input model.Input, quakeCore core.QuakeCore) {
 	var results string
-	buffer := bytes.Buffer{}
 	if input.Total > 100 {
 		index := input.Total / 100
 		pid, result := quakeCore.GetServiceInfo(input.Key, input.Search, 100, "")
-		buffer.WriteString(result)
+		lock.buffer.WriteString(result)
 		dataChan := make(chan string)
 		quitChan := make(chan bool, index)
 		for i := 0; i < index; i++ {
@@ -110,16 +113,20 @@ func doGetQuakeInfo(input model.Input, quakeCore core.QuakeCore) {
 		for {
 			select {
 			case data := <-dataChan:
-				buffer.WriteString(data)
+				lock.Lock.Lock()
+				lock.buffer.WriteString(data)
+				lock.Lock.Unlock()
 			case <-quitChan:
+				QuitLock.Lock()
 				flag += 1
+				QuitLock.Unlock()
 				if flag == index {
 					goto finish
 				}
 			}
 		}
 	finish:
-		results = buffer.String()
+		results = lock.buffer.String()
 	} else {
 		_, results = quakeCore.GetServiceInfo(input.Key, input.Search, input.Total, "")
 	}

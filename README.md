@@ -11,7 +11,7 @@
 
 该项目起初是为了做QuakeAPI，后续发现实际工作中也有对FofaAPI的需求，所以最终打算兼容FofaAPI
 
-网上已有大量的FofaAPI工具，然而大部分都是Python编写，具体如何使用可以参考下文和图片内容
+具体如何使用可以参考下文和图片内容
 
 - Quake：https://quake.360.cn/
 - Fofa：https://fofa.so/
@@ -70,5 +70,5 @@ QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --outp
 - --key：输入你的API Key
 - --search：输入你的查询字符串
 - --output：设置输出文件（默认是result.txt）
-- --total：查询总条数（默认是100条，如果数量较多，自动使用协程）
+- --total：查询总条数（默认是100条，建议设置为100的倍数。如果数量较多，自动使用协程）
 - --userinfo：是否查询用户相关的信息（用户名邮箱等信息）

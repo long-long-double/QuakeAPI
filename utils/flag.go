@@ -45,6 +45,10 @@ func ParseInput() model.Input {
 		log.Log("Fofa Need Email", log.ERROR)
 		os.Exit(0)
 	}
+	if quake == true && fofa == true {
+		log.Log("What Do You Want To Do", log.ERROR)
+		os.Exit(0)
+	}
 	result.UserInfo = userInfo
 	result.Key = key
 	result.Search = search
