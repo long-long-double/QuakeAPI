@@ -1,21 +1,43 @@
 # 360 Quake API / Fofa API
 
 ## 项目介绍
-对于渗透测试工程师来说，一定是熟悉Fofa的，但是大部分人应该不了解Quake。
-其实360公司的Quake是与Fofa、Shodan类似的搜索引擎，而且效果更好，全名是360网络空间测绘系统。
-该项目起初是为了做QuakeAPI，后续发现实际工作中也有对FofaAPI的需求，所以最终打算兼容FofaAPI。
-具体如何使用可以参考下文和图片内容。
+
+对于渗透测试工程师来说，一定熟悉Fofa，但大部分人应该不了解Quake
+
+其实360公司的Quake是与Fofa、Shodan类似的搜索引擎，而且效果更好，全名是360网络空间测绘系统
+
+该项目起初是为了做QuakeAPI，后续发现实际工作中也有对FofaAPI的需求，所以最终打算兼容FofaAPI
+
+网上已有大量的FofaAPI工具，然而大部分都是Python编写，具体如何使用可以参考下文和图片内容
 
 - Quake：https://quake.360.cn/
 - Fofa：https://fofa.so/
 
-## 为什么选择Golang
+为什么选择Golang：
+
 - 直接生成多个平台可执行文件，无需安装各种复杂的环境（Python，JDK等等）
-- Golang的性能强于Java/Python等语言
+- Golang拥有C++的性能和Python的简洁
 - 近年来安全工具的主流语言（Xray,Goby,Kunpeng...）
 
-## 参数说明
+## 快速上手
 
+在github的release页面下载build好的可执行文件
+
+下面以MySQL为例：
+
+- Windows
+
+**QuakeAPI.exe <font color=green>--fofa</font> --key <font color=red>[your_key]</font> --email <font color=red>[your_email]</font> <font color=orange>--search "mysql"</font> --total 1000 --output result.txt**
+
+**QuakeAPI.exe <font color=green>--quake</font> --key <font color=red>[your_key]</font> <font color=orange>--search service:mysql</font> --total 1000 --output result.txt**
+
+- Linux / MacOS
+
+**./QuakeAPI <font color=green>--fofa</font> --key <font color=red>[your_key]</font> --email <font color=red>[your_email]</font> <font color=orange>--search "mysql"</font> --total 1000 --output result.txt**
+
+**./QuakeAPI <font color=green>--quake</font> --key <font color=red>[your_key]</font> <font color=orange>--search service:mysql</font> --total 1000 --output result.txt**
+
+## 参数说明：
 - --email：当使用fofa时需要提供email
 - --fofa：使用fofa引擎
 - --quake：使用quake引擎
@@ -24,7 +46,7 @@
 - --search：输入你的查询字符串
 - --output：设置输出文件（默认是result.txt）
 - --total：查询总条数（默认是100条，如果数量较多，自动使用协程）
-- --userinfo：是否查询用户相关的信息
+- --userinfo：是否查询用户相关的信息（用户名邮箱等信息）
 
 ## 截图
 
