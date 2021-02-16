@@ -3,7 +3,6 @@ package utils
 import (
 	"QuakeAPI/log"
 	"bytes"
-	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
 	"net/http"
@@ -34,7 +33,6 @@ func doRequest(
 	var req *http.Request
 	var err error
 	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	fmt.Println(url)
 	if data != nil {
 		bytesData, _ := json.Marshal(data)
 		req, err = http.NewRequest(method, url, bytes.NewBuffer(bytesData))
