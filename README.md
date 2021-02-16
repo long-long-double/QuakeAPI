@@ -1,5 +1,8 @@
 # 360 Quake API / Fofa API
-![](https://img.shields.io/badge/Release-Version0.1-blue.svg)
+
+![](https://img.shields.io/badge/Version-0.1-blue.svg)
+![](https://img.shields.io/badge/Golang-1.15-blue.svg)
+
 ## 项目介绍
 
 对于渗透测试工程师来说，一定熟悉Fofa，但大部分人应该不了解Quake
@@ -21,21 +24,29 @@
 
 ## 快速上手
 
-在github的release页面下载build好的可执行文件
+在github的release页面下载可执行文件：[下载地址](https://github.com/EmYiQing/QuakeAPI/releases)
 
 下面以MySQL为例：
 
 - Windows
 
-**QuakeAPI.exe --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt**
+```bash
+QuakeAPI.exe --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt
+```
 
-**QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --output result.txt**
+```bash
+QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --output result.txt
+```
 
 - Linux / MacOS
 
-**./QuakeAPI --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt**
+```bash
+./QuakeAPI --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt
+```
 
-**./QuakeAPI --quake</font> --key [your_key] --search service:mysql --total 1000 --output result.txt**
+```bash
+./QuakeAPI --quake --key [your_key] --search service:mysql --total 1000 --output result.txt
+```
 
 ## 截图
 
