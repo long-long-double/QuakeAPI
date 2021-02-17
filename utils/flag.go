@@ -18,7 +18,9 @@ func ParseInput() model.Input {
 	var fofa bool
 	var quake bool
 	var email string
+	var config bool
 	result := model.Input{}
+	flag.BoolVar(&config, "config", false, "Use Config Yaml File.")
 	flag.StringVar(&key, "key", "", "Input Your API Key.")
 	flag.StringVar(&email, "email", "", "If You Use Fofa,You Should Enter This.")
 	flag.IntVar(&total, "total", 100, "Number Of Queries You Want.")
@@ -33,21 +35,26 @@ func ParseInput() model.Input {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
-	if strings.TrimSpace(key) == "" {
-		log.Log("Need Key", log.ERROR)
-		os.Exit(0)
-	}
-	if strings.TrimSpace(search) == "" && userInfo == false {
-		log.Log("Need Search String", log.ERROR)
-		os.Exit(0)
-	}
-	if strings.TrimSpace(email) == "" && fofa == true {
-		log.Log("Fofa Need Email", log.ERROR)
-		os.Exit(0)
-	}
-	if quake == true && fofa == true {
-		log.Log("What Do You Want To Do", log.ERROR)
-		os.Exit(0)
+	if config == true {
+		result.Config = config
+		return result
+	} else {
+		if strings.TrimSpace(key) == "" {
+			log.Log("Need Key", log.ERROR)
+			os.Exit(0)
+		}
+		if strings.TrimSpace(search) == "" && userInfo == false {
+			log.Log("Need Search String", log.ERROR)
+			os.Exit(0)
+		}
+		if strings.TrimSpace(email) == "" && fofa == true {
+			log.Log("Fofa Need Email", log.ERROR)
+			os.Exit(0)
+		}
+		if quake == true && fofa == true {
+			log.Log("What Do You Want To Do", log.ERROR)
+			os.Exit(0)
+		}
 	}
 	result.UserInfo = userInfo
 	result.Key = key

@@ -1,6 +1,7 @@
 package model
 
 type Input struct {
+	Config   bool
 	Key      string
 	Email    string
 	Search   string

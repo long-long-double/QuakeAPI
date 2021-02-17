@@ -5,9 +5,7 @@
 
 ## 项目介绍
 
-对于渗透测试工程师来说，一定熟悉Fofa，但大部分人应该不了解Quake
-
-其实360公司的Quake是与Fofa、Shodan类似的搜索引擎，而且效果更好，全名是360网络空间测绘系统
+360公司的Quake是与Fofa、Shodan类似的搜索引擎，而且效果更好，全名是360网络空间测绘系统
 
 该项目起初是为了做QuakeAPI，后续发现实际工作中也有对FofaAPI的需求，所以最终打算兼容FofaAPI
 
@@ -48,6 +46,36 @@ QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --outp
 ./QuakeAPI --quake --key [your_key] --search service:mysql --total 1000 --output result.txt
 ```
 
+- 如果命令行太麻烦，可以直接使用配置文件：
+
+使用`--config`参数创建配置文件
+
+```bash
+QuakeAPI.exe --config
+```
+
+```yaml
+login:
+  email: "your@email.com"       # 如果使用Fofa需要提供Email
+  key: "your-key"               # 需要提供API Key
+  userinfo: false               # 是否查询用户相关的信息
+
+search:
+  query: "service:http"         # 查询字符串
+  output: "result.txt"          # 输出文件
+  total: 1000                   # 查询个数（建议100的倍数）
+
+use:
+  quake: false                  # 是否使用quake引擎
+  fofa: true                    # 是否使用fofa引擎
+```
+
+编辑完配置文件后，再次运行相同的命令即可
+
+```bash
+QuakeAPI.exe --config
+```
+
 ## 截图
 
 ### 说明
@@ -63,6 +91,7 @@ QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --outp
 ![](https://xuyiqing-1257927651.cos.ap-beijing.myqcloud.com/quake/result.png)
 
 ## 参数说明：
+- --config：使用配置文件模式
 - --email：当使用fofa时需要提供email
 - --fofa：使用fofa引擎
 - --quake：使用quake引擎

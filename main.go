@@ -10,16 +10,29 @@ import (
 	"sync"
 )
 
-type Lock struct {
+type DataLock struct {
 	Lock   sync.Mutex
 	buffer bytes.Buffer
 }
 
 var QuitLock sync.Mutex
-var lock = Lock{sync.Mutex{}, bytes.Buffer{}}
+var lock = DataLock{sync.Mutex{}, bytes.Buffer{}}
 
 func main() {
 	input := utils.ParseInput()
+	if input.Config == true {
+		filename := "config.yaml"
+		if utils.FileExist(filename) == true {
+			data := utils.ReadYamlFile(filename)
+			config := utils.ReadYaml(data)
+			input = utils.YamlToInput(config)
+		} else {
+			utils.CreateYamlFile(filename)
+			log.Log("Generate Config Yaml File", log.INFO)
+			log.Log("Please Edit It", log.INFO)
+			return
+		}
+	}
 	if input.Quake == true {
 		utils.PrintLogo("quake")
 		doQuake(input)
@@ -27,10 +40,9 @@ func main() {
 		utils.PrintLogo("fofa")
 		doFofa(input)
 	} else {
-		log.Log("Fofa or Quake ? You Should Chose One(--fofa/--quake)", log.ERROR)
+		log.Log("Fofa or Quake ? You Should Chose One", log.ERROR)
 		return
 	}
-
 }
 
 func doQuake(input model.Input) {
