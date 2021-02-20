@@ -19,7 +19,11 @@ func YamlToInput(config model.YamlConfig) model.Input {
 	input := model.Input{}
 	input.Total = config.Search.Total
 	input.Search = config.Search.Query
-	input.Output = config.Search.Output
+	if config.MySQL.Use == true {
+		input.Output = "save-to-mysql"
+	} else {
+		input.Output = config.Search.Output
+	}
 	input.Email = config.Login.Email
 	input.Key = config.Login.Key
 	input.UserInfo = config.Login.Userinfo

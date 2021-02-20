@@ -20,6 +20,13 @@ use:
   quake: false                  # 是否使用quake引擎
   fofa: true                    # 是否使用fofa引擎
 
+mysql:
+  use: false                    # 如果需要保存MySQL设置为True
+  server: localhost             # 服务器IP
+  port: 3306                    # 端口
+  username: your-username       # 用户名
+  password: your-password       # 密码
+
 `
 
 func FileExist(filename string) bool {

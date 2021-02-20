@@ -2,6 +2,7 @@ package main
 
 import (
 	"QuakeAPI/core"
+	"QuakeAPI/db"
 	"QuakeAPI/log"
 	"QuakeAPI/model"
 	"QuakeAPI/utils"
@@ -18,6 +19,8 @@ type DataLock struct {
 var QuitLock sync.Mutex
 var lock = DataLock{sync.Mutex{}, bytes.Buffer{}}
 
+var mysqlConf db.MySQLConfig
+
 func main() {
 	input := utils.ParseInput()
 	if input.Config == true {
@@ -25,6 +28,16 @@ func main() {
 		if utils.FileExist(filename) == true {
 			data := utils.ReadYamlFile(filename)
 			config := utils.ReadYaml(data)
+			if config.MySQL.Use == true {
+				mysqlConf = db.MySQLConfig{
+					Username: config.MySQL.Username,
+					Password: config.MySQL.Password,
+					Network:  "tcp",
+					Server:   config.MySQL.Server,
+					Port:     config.MySQL.Port,
+					Database: "mysql",
+				}
+			}
 			input = utils.YamlToInput(config)
 		} else {
 			utils.CreateYamlFile(filename)
@@ -103,7 +116,12 @@ func doGetFofaInfo(input model.Input, fofaCore core.FofaCore) {
 	} else {
 		results, _, _ = fofaCore.GetSearchInfo(input.Search, 1)
 	}
-	utils.WriteOutput(results, input.Output)
+	if input.Output == "save-to-mysql" {
+		dataList := strings.Split(results, "\n")
+		db.SaveDataToMySQL(dataList, mysqlConf)
+	} else {
+		utils.WriteOutput(results, input.Output)
+	}
 }
 
 func doGetQuakeInfo(input model.Input, quakeCore core.QuakeCore) {
@@ -142,5 +160,10 @@ func doGetQuakeInfo(input model.Input, quakeCore core.QuakeCore) {
 	} else {
 		_, results = quakeCore.GetServiceInfo(input.Key, input.Search, input.Total, "")
 	}
-	utils.WriteOutput(results, input.Output)
+	if input.Output == "save-to-mysql" {
+		dataList := strings.Split(results, "\n")
+		db.SaveDataToMySQL(dataList, mysqlConf)
+	} else {
+		utils.WriteOutput(results, input.Output)
+	}
 }

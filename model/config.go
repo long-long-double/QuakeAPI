@@ -15,4 +15,11 @@ type YamlConfig struct {
 		Quake bool `yaml:"quake"`
 		Fofa  bool `yaml:"fofa"`
 	} `yaml:"use"`
+	MySQL struct {
+		Use      bool   `yaml:"use"`
+		Server   string `yaml:"server"`
+		Port     int    `yaml:"port"`
+		Username string `yaml:"username"`
+		Password string `yaml:"password"`
+	} `yaml:"mysql"`
 }

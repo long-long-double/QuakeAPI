@@ -14,6 +14,13 @@
 - Quake：https://quake.360.cn/
 - Fofa：https://fofa.so/
 
+简介：
+
+- 基于命令行，支持QuakeAPI和FofaAPI的查询
+- 使用协程技术提高大量数据查询的效率
+- 支持纯命令行方式和YAML配置文件的方式
+- 支持普通的TXT输出和保存到MySQL的方式
+
 为什么选择Golang：
 
 - 直接生成多个平台可执行文件，无需安装各种复杂的环境（Python，JDK等等）
@@ -29,7 +36,7 @@
 - Windows
 
 ```bash
-QuakeAPI.exe --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt
+QuakeAPI.exe --fofa --key [your_key] --email [your_email] --search mysql --total 1000 --output result.txt
 ```
 
 ```bash
@@ -39,7 +46,7 @@ QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --outp
 - Linux / MacOS
 
 ```bash
-./QuakeAPI --fofa --key [your_key] --email [your_email] --search "mysql" --total 1000 --output result.txt
+./QuakeAPI --fofa --key [your_key] --email [your_email] --search mysql --total 1000 --output result.txt
 ```
 
 ```bash
@@ -54,6 +61,8 @@ QuakeAPI.exe --quake --key [your_key] --search service:mysql --total 1000 --outp
 QuakeAPI.exe --config
 ```
 
+当使用配置文件的方式时，支持保存到MySQL，设置好相关的参数即可
+
 ```yaml
 login:
   email: "your@email.com"       # 如果使用Fofa需要提供Email
@@ -62,15 +71,23 @@ login:
 
 search:
   query: "service:http"         # 查询字符串
-  output: "result.txt"          # 输出文件
+  output: "result.txt"          # 输出文件（使用mysql将忽略此选项）
   total: 1000                   # 查询个数（建议100的倍数）
 
 use:
   quake: false                  # 是否使用quake引擎
   fofa: true                    # 是否使用fofa引擎
+  
+mysql:
+  use: false                    # 如果需要保存MySQL设置为True
+  server: localhost             # 服务器IP
+  port: 3306                    # 端口
+  username: your-username       # 用户名
+  password: your-password       # 密码
+
 ```
 
-编辑完配置文件后，再次运行相同的命令即可
+编辑完配置文件后，再次运行相同的命令执行程序
 
 ```bash
 QuakeAPI.exe --config
